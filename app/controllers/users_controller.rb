@@ -5,27 +5,26 @@ class UsersController < ApplicationController
         if !logged_in?
             erb :"users/create_user"
         else
-        redirect "/tweets"
+        redirect to "/tweets"
         end
     end
     
-    post "/signup" do
-        
+    post "/signup" do   
         if params[:username] == "" || params[:password] == "" || params[:email] == ""
             redirect to "/signup"
         else
-        @user = User.create(params)
-        @user.save
-        session[:user_id] = @user.id
-        redirect to "/tweets"
+            @user = User.new(username: params[:username], email: params[:email], password: params[:password])
+            @user.save
+            session[:user_id] = @user.id
+            redirect to "/tweets"
         end
     end
 
     get '/login' do
         if !logged_in?
-        erb :"users/login"
+            erb :"users/login"
         else
-        redirect to "/tweets"
+            redirect to "/tweets"
         end
     end
 
@@ -36,8 +35,17 @@ class UsersController < ApplicationController
             redirect to "/tweets"
         else 
             redirect to "/signup"
+        end    
+    end
+
+    get '/logout' do 
+        if logged_in?
+            session.clear
+            redirect to "/login"
+        else 
+            redirect to "/"
         end
-        
-    end    
+
+    end
 
 end
