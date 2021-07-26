@@ -1,8 +1,8 @@
 class TweetsController < ApplicationController
 
     get '/tweets' do
-        if logged_in?
-            
+    #   binding.pry
+        if logged_in?    
             @tweets = Tweet.all 
             @user = current_user
             erb :"tweets/tweets"
@@ -11,13 +11,18 @@ class TweetsController < ApplicationController
         end
     end
 
-    get '/tweets/new' do 
+    get '/tweets/new' do
+        
         if logged_in?
             @user = current_user
             erb :"tweets/new"
         else 
             redirect to "/login"
         end
+    end
+
+    post '/tweets' do
+        
     end
 
 
